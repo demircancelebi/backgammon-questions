@@ -1,0 +1,151 @@
+@import "compass/css3";
+
+$checkerR:20px;
+$borderW:20px;
+$boardW:$checkerR*12;
+$boardH:240px;
+$checkerBorder:1px;
+$checkerAfterBorder:2px;
+$sidePanelW:80px;
+$allBoardsW:$boardW*2 + $borderW*4;
+
+$you: rgb(40,40,40);
+$youBorder: 1px solid rgba(255,255,255,.5);
+
+$opp: rgb(245,245,245);
+$oppBorder: 1px solid rgba(0,0,0,.5);
+
+@mixin flipV(){
+	@include scaleY(-1);
+}
+
+@mixin flipH(){
+	@include scaleX(-1);
+}
+
+.screen{
+	width: $allBoardsW + $sidePanelW*2;
+	float: left;
+}
+
+.all-boards{
+	float: left;
+	position: relative;
+	width: $allBoardsW;
+}
+
+.boards{
+	position: relative;
+	float: left;
+}
+.boards.top{ 
+	@include flipH()
+}
+.boards.bottom{ 
+	@include flipV()
+}
+
+.board-1, .board-2, .board-3, .board-4{
+	background: rgba(200,150,120,1);
+	float: left;
+	border:$checkerR solid rgba(170,90,30,1);
+	border-bottom:none;
+	position: relative;
+	width: $boardW;
+	height: $boardH;
+}
+
+.checker{
+	position: relative;
+	width: $checkerR*2 - $checkerBorder*2;
+	height: $checkerR*2 - $checkerBorder*2;
+	@include border-radius($checkerR);
+	&.opp{
+		background: $opp;
+		border:$oppBorder;
+		&:after{
+			border:$checkerAfterBorder dotted rgba(0,100,250,.25);	
+		}
+	}
+	&.you{
+		background: $you;
+		border: $youBorder;
+
+		&:after{
+			border:$checkerAfterBorder dotted rgba(220,220,0,.25);		
+		}
+	}
+	&:after{
+		content:"";
+		display:block;
+		background: rgba(150,150,150,.3);
+		width:$checkerR - $checkerAfterBorder;
+		height:$checkerR - $checkerAfterBorder;
+		margin:$checkerR/2 - $checkerBorder*2;
+		@include border-radius($checkerR);
+	}
+}
+
+.checker-holder{
+	margin: -200px 0 0 -1*$checkerR;
+}
+
+.line{
+	width: 0; 
+	height: 0; 
+	border-left: $checkerR solid transparent;
+	border-right: $checkerR solid transparent;
+	border-top: 200px solid transparent;
+	position: relative;
+	float: left;
+	&.white{
+		border-top: 200px solid rgba(255,255,255,.35);
+	}
+	&.black{
+		border-top: 200px solid rgba(0,0,0,.35);
+	}
+}
+
+@import "dice";
+
+.side-panel{
+	width: $sidePanelW;
+	background: rgba(170,90,30,.9);
+	float: left;
+	height: 520px;
+	position: relative;
+}
+
+.checker-side-holder{
+	width: 44px;
+	margin:20px 18px 0;
+	height: 120px;
+	position: absolute;
+	background: transparent;
+	float: left;
+	@include box-shadow(inset 0 0 20px rgba(30,30,30,.6));
+	@include border-radius(5px);
+	&.bottom{
+		@include flipV();
+		bottom:20px;
+	}
+
+	.checker{
+		width: $checkerR*2;
+		height: 5px;
+		margin: 2px 1px -2px;
+
+		&:nth-child(5n){
+			margin-bottom: 5px;
+		}
+		&:after{
+			display: none
+		}
+		&.opp{
+			background: $opp;
+		}
+		&.you{
+			background: $you;
+		}
+	}
+}
