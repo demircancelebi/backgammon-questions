@@ -128,7 +128,6 @@
               <div class="checker you"></div>
               <div class="checker you"></div>
               <div class="checker you"></div>
-              <div class="checker opp"></div>
             </div>
           </div>
           <div class="line white">
@@ -170,5 +169,11 @@
   <script src="js/jquery.js"></script>
   <script src="js/underscore.js"></script>
   <script src="js/backbone.js"></script>
+  <script src="js/main.js"></script>
+
+  <script type="text/template" id="checker-template">
+    <div class="checker {{value ? 'you' : 'opp'}}"></div>
+  </script>
+
 </body>
 </html>
