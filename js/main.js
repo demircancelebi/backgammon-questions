@@ -1,15 +1,16 @@
 $(function() {
 _.templateSettings = { interpolate : /\{\{(.+?)\}\}/g };
-
+  
+// A checker model
 var CheckerModel = Backbone.Model.extend({
 	defaults: {
 		value:0
 	},
 	
-	validate = function(attrs) {
+	validate: function(attrs) {
 		if (!attrs.value) {
 			return 'I need a value!';
-		},
+		}; 
 	},
 
 	initialize: function(){
@@ -21,21 +22,57 @@ var CheckerModel = Backbone.Model.extend({
 
 });
 
+// A checker view
 var CheckerView = Backbone.View.extend({
-	tmp: _.template($('#checker-template').html()),
+	template: _.template($('#checker-template').html()),
 
 	initialize: function () {
 		this.render();
 	},
 
 	render: function() {
-		this.el = $(this.tmp(this.model.toJSON()));
-		this.delegateEvents();
+		this.el = $(this.template(this.model.toJSON()));
 		return this;
 	}
 });
 
-var checkerModel = new CheckerModel({ value:0 });
-var checkerView = new CheckerView({model: checkerModel});
+
+//var checkerModel = new CheckerModel();
+//var checkerView = new CheckerView({model: checkerModel});
+
+
+var DiceModel = Backbone.Model.extend({
+	defaults: {
+		value: 0
+	}
+});
+
+var QuestionParser = Backbone.Model.extend({
+	url: "questions/question.json",
+
+	initialize: function(){
+	},
+
+	parse : function(response){
+		console.log(response);
+		return response;  
+	}
+
+});
+
+//view
+var DiceView = Backbone.View.extend({
+    initialize: function () {
+		this.model = new QuestionParser();
+        this.model.fetch();
+        this.render();
+    },
+    render: function () {
+        console.log(this.model.toJSON());
+    }
+});
+
+
+var myView = new DiceView();
 
 });
