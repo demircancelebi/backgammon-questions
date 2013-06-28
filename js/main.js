@@ -36,6 +36,11 @@ $(function() {
 		}
 	});
 
+	BG.Models.Cube = Backbone.Model.extend({
+		position:"",
+		value: ""
+	});
+
 	// VIEWS
 
 	BG.Views.Checker = Backbone.View.extend({
@@ -58,18 +63,32 @@ $(function() {
 	    	this.render();
 	    },
 	    render: function () {
-	    	var diceNumber = this.model.get('value');
-	    	var diceTexts = ['one','two','three','four','five','six'];
-			var dice1 = diceTexts[diceNumber[0]-1];
-			var dice2 = diceTexts[diceNumber[1]-1];
-			var dices = { value: [dice1,dice2] }
-			this.el = $(this.template(dices));
+			this.el = $(this.template(this.model.toJSON()));
 			$('.dice-holder').html(this.el);
 	    	return this;
 	    }
 	});
 
+	BG.Views.Cube = Backbone.View.extend({
+		template: template('cube-template'),
+
+		initialize: function () {
+			this.render();
+		},
+
+		render: function () {
+			console.log(this.collection.models[0].toJSON().model);
+			this.el = $(this.template(this.collection.models[0].toJSON()));
+			$('.cube-holder').html(this.el)
+			return this;	
+		}
+	});
+
 	// COLLECTIONS
+
+	BG.Collections.Cube = Backbone.Collection.extend({
+		model: BG.Models.Cube
+	});
 
 	BG.Collections.Questions = Backbone.Collection.extend({
 		url: '/questions/question.json',
@@ -86,8 +105,8 @@ $(function() {
 			var dice = questions.models[0].get('dice');	
 			var score = questions.models[0].get('score');	
 //			console.log(checkers);
-//			console.log(cube);
 //			console.log(score);
+//	DONE	console.log(cube);
 // 	DONE	console.log(dice);
 
 			var diceModel = new BG.Models.Dice({
@@ -97,6 +116,14 @@ $(function() {
 			var diceView = new BG.Views.Dice({
 				model: diceModel
 			});
+
+			var cubeCollection = new BG.Collections.Cube({
+				model: cube
+			});
+
+			var cubeView = new BG.Views.Cube({
+				collection: cubeCollection
+			})
 		}
 	})
 });

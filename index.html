@@ -13,7 +13,9 @@
       </div>
       <div class="checker-side-holder bottom">
       </div>
-      <div class="double-cube"></div>
+      <div class="cube-holder">
+
+      </div>
     </div>
     <div class="all-boards">
       <div class="boards top">
@@ -176,9 +178,14 @@
   </script>
 
   <script type="text/template" id="dice-template">
-    <div class="die {{value[0]}}"></div>
-    <div class="die {{value[1]}}"></div>
+    <div class="die _{{value[0]}}"></div>
+    <div class="die _{{value[1]}}"></div>
   </script>
+
+  <script type="text/template" id="cube-template">
+    <div class="cube die empty black _{{model.position}} ">{{model.value ? model.value : '64'}}</div>
+  </script>
+
 
 </body>
 </html>

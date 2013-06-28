@@ -149,3 +149,11 @@ $oppBorder: 1px solid rgba(0,0,0,.5);
 		}
 	}
 }
+
+.cube{
+	position: absolute;
+	margin: $boardH 0 0 $borderW;
+	&.opp, &._1{ margin-top: $borderW*1.1 }
+	&.you, &._2{ margin-top: $boardH*2 - $borderW*1.2 }
+
+}
