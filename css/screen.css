@@ -113,43 +113,45 @@
   box-shadow: 0px 2px 0 #333333, 0 3px 3px #444444, 0 3px 5px rgba(50, 50, 50, 0.2);
   border-top: 1px solid #0e0e0e; }
 
-/* line 17, ../scss/dice.scss */
+/* line 16, ../scss/dice.scss */
 .die.empty {
   font-size: 20px;
   line-height: 40px;
-  text-align: center; }
+  text-align: center;
+  overflow: hidden; }
   /* line 21, ../scss/dice.scss */
   .die.empty:after {
-    background: transparent; }
+    background: transparent;
+    box-shadow: 0; }
 
-/* line 25, ../scss/dice.scss */
+/* line 26, ../scss/dice.scss */
 .die.one:after, .die._1:after {
   box-shadow: 0 0.2em 0 white; }
 
-/* line 28, ../scss/dice.scss */
+/* line 29, ../scss/dice.scss */
 .die.two:after, .die._2:after {
   background: transparent;
   box-shadow: -2.3em -2.3em 0 #334455, 2.3em 2.3em 0 #334455, -2.3em -2.3em 0 white, 2.3em 2.4em 0 white; }
 
-/* line 35, ../scss/dice.scss */
+/* line 36, ../scss/dice.scss */
 .die.three:after, .die._3:after {
   box-shadow: -2.3em -2.3em 0 #334455, 2.3em 2.3em 0 #334455, -2.3em -2.3em 0 white, 2.3em 2.4em 0 white, 0 0.2em 0 white; }
 
-/* line 42, ../scss/dice.scss */
+/* line 43, ../scss/dice.scss */
 .die.four:after, .die._4:after {
   background: transparent;
   box-shadow: -2.3em -2.3em 0 #334455, 2.3em 2.3em 0 #334455, -2.3em 2.3em 0 #334455, 2.3em -2.3em 0 #334455, -2.3em -2.3em 0 white, 2.3em 2.4em 0 white, -2.3em 2.4em 0 white, 2.3em -2.3em 0 white; }
 
-/* line 53, ../scss/dice.scss */
+/* line 54, ../scss/dice.scss */
 .die.five:after, .die._5:after {
   box-shadow: -2.3em -2.3em 0 #334455, 2.3em 2.3em 0 #334455, -2.3em 2.3em 0 #334455, 2.3em -2.3em 0 #334455, -2.3em -2.2em 0 white, 2.3em -2.2em 0 white, 2.3em 2.4em 0 white, -2.3em 2.4em 0 white, 0 0.2em 0 white; }
 
-/* line 64, ../scss/dice.scss */
+/* line 65, ../scss/dice.scss */
 .die.six:after, .die._6:after {
   background: transparent;
   box-shadow: -2.3em -2.3em 0 #334455, -2.3em 0 0 #334455, -2.3em 2.3em 0 #334455, 2.3em -2.3em 0 #334455, 2.3em 0 0 #334455, 2.3em 2.3em 0 #334455, -2.3em -2.1em 0 white, -2.3em 0.2em 0 white, -2.3em 2.4em 0 white, 2.3em 2.4em 0 white, 2.3em 0.2em 0 white, 2.3em -2.1em 0 white; }
 
-/* line 79, ../scss/dice.scss */
+/* line 80, ../scss/dice.scss */
 .die {
   border-top: 1px solid #f1f1f1;
   width: 40px;
@@ -161,7 +163,7 @@
   box-shadow: 0px 2px 0 #cccccc, 0 3px 3px #444444, 0 3px 5px rgba(50, 50, 50, 0.2);
   background: #fff; }
 
-/* line 89, ../scss/dice.scss */
+/* line 90, ../scss/dice.scss */
 .die:after {
   content: "";
   width: 20%;
@@ -229,8 +231,8 @@
   position: absolute;
   margin: 240px 0 0 20px; }
   /* line 156, ../scss/screen.scss */
-  .cube.opp, .cube._1 {
+  .cube.opp {
     margin-top: 22px; }
   /* line 157, ../scss/screen.scss */
-  .cube.you, .cube._2 {
+  .cube.you {
     margin-top: 456px; }

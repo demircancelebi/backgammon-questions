@@ -183,7 +183,7 @@
   </script>
 
   <script type="text/template" id="cube-template">
-    <div class="cube die empty black _{{model.position}} ">{{model.value ? model.value : '64'}}</div>
+    <div class="cube die empty black {{model.value ? (model.location ? 'you' : 'opp') : ''}}">{{model.value ? model.value : '64'}}</div>
   </script>
 
 

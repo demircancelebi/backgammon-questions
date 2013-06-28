@@ -47,8 +47,8 @@
 		"game":11
 	},
 	"cube": {
-		"position":0,
-		"value":4
+		"value":0,
+		"location":0
 	},
 	"dice" : [3,5]
 }

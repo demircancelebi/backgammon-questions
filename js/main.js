@@ -37,8 +37,8 @@ $(function() {
 	});
 
 	BG.Models.Cube = Backbone.Model.extend({
-		position:"",
-		value: ""
+		value: "",
+		location:""
 	});
 
 	// VIEWS
