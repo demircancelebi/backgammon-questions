@@ -1,78 +1,102 @@
 $(function() {
-_.templateSettings = { interpolate : /\{\{(.+?)\}\}/g };
-  
-// A checker model
-var CheckerModel = Backbone.Model.extend({
-	defaults: {
-		value:0
-	},
-	
-	validate: function(attrs) {
-		if (!attrs.value) {
-			return 'I need a value!';
-		}; 
-	},
+	_.templateSettings = { interpolate : /\{\{(.+?)\}\}/g };
 
-	initialize: function(){
-		console.log('CheckerModel has been initialized.');
-		this.on('change:value', function(){
-			console.log('- The value of CheckerModel have changed.');
-		});
-	}
+	window.BG = {
+		Models: {},
+		Collections: {},
+		Views: {}
+	};		
 
-});
+	window.template = function (id) { return _.template( $('#' + id ).html() ) }
 
-// A checker view
-var CheckerView = Backbone.View.extend({
-	template: _.template($('#checker-template').html()),
+	// MODELS
 
-	initialize: function () {
-		this.render();
-	},
+	BG.Models.Checker = Backbone.Model.extend({
+		defaults: {
+			value:0
+		},
+		
+		validate: function(attrs) {
+			if (!attrs.value) {
+				return 'I need a value!';
+			}; 
+		},
 
-	render: function() {
-		this.el = $(this.template(this.model.toJSON()));
-		return this;
-	}
-});
+		initialize: function(){
+			console.log('CheckerModel has been initialized.');
+			this.on('change:value', function(){
+				console.log('- The value of CheckerModel have changed.');
+			});
+		}
+	});
 
+	BG.Models.Dice = Backbone.Model.extend({
+		defaults: {
+			value: [1,1]
+		}
+	});
 
-//var checkerModel = new CheckerModel();
-//var checkerView = new CheckerView({model: checkerModel});
+	// VIEWS
 
+	BG.Views.Checker = Backbone.View.extend({
+		template: template('checker-template'),
 
-var DiceModel = Backbone.Model.extend({
-	defaults: {
-		value: 0
-	}
-});
+		initialize: function () {
+			this.render();
+		},
 
-var QuestionParser = Backbone.Model.extend({
-	url: "questions/question.json",
+		render: function() {
+			this.el = $(this.template(this.model.toJSON()));
+			return this;
+		}
+	});
 
-	initialize: function(){
-	},
+	BG.Views.Dice = Backbone.View.extend({
+		template: template('dice-template'),
 
-	parse : function(response){
-		console.log(response);
-		return response;  
-	}
+	    initialize: function () {
+	    	this.render();
+	    },
+	    render: function () {
+	    	var diceNumber = this.model.get('value');
+	    	var diceTexts = ['one','two','three','four','five','six'];
+			var dice1 = diceTexts[diceNumber[0]-1];
+			var dice2 = diceTexts[diceNumber[1]-1];
+			var dices = { value: [dice1,dice2] }
+			this.el = $(this.template(dices));
+			$('.dice-holder').html(this.el);
+	    	return this;
+	    }
+	});
 
-});
+	// COLLECTIONS
 
-//view
-var DiceView = Backbone.View.extend({
-    initialize: function () {
-		this.model = new QuestionParser();
-        this.model.fetch();
-        this.render();
-    },
-    render: function () {
-        console.log(this.model.toJSON());
-    }
-});
+	BG.Collections.Questions = Backbone.Collection.extend({
+		url: '/questions/question.json',
+		parse: function(response){
+            return response;
+        }
+	});
 
+	var questions = new BG.Collections.Questions();
+	questions.fetch({
+		success: function (argument) {
+			var checkers = questions.models[0].get('checkers');	
+			var cube = questions.models[0].get('cube');	
+			var dice = questions.models[0].get('dice');	
+			var score = questions.models[0].get('score');	
+//			console.log(checkers);
+//			console.log(cube);
+//			console.log(score);
+// 	DONE	console.log(dice);
 
-var myView = new DiceView();
+			var diceModel = new BG.Models.Dice({
+				value: dice
+			});
 
+			var diceView = new BG.Views.Dice({
+				model: diceModel
+			});
+		}
+	})
 });
