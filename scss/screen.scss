@@ -10,10 +10,12 @@ $sidePanelW:80px;
 $allBoardsW:$boardW*2 + $borderW*4;
 
 $you: rgb(40,40,40);
-$youBorder: 1px solid rgba(255,255,255,.5);
+$youBorderColor:rgba(255,255,255,.5);
+$youBorder: 1px solid $youBorderColor;
 
 $opp: rgb(245,245,245);
-$oppBorder: 1px solid rgba(0,0,0,.5);
+$oppBorderColor: rgba(0,0,0,.5);
+$oppBorder: 1px solid $oppBorderColor;
 
 @mixin flipV(){
 	@include scaleY(-1);
@@ -117,9 +119,11 @@ $oppBorder: 1px solid rgba(0,0,0,.5);
 }
 
 .checker-side-holder{
+	$checker-height:11px;
+	$mb:5px;
 	width: 44px;
 	margin:20px 18px 0;
-	height: 120px;
+	height: ($checker-height +2) *15 + $mb*2 + 4px;
 	position: absolute;
 	background: transparent;
 	float: left;
@@ -132,20 +136,23 @@ $oppBorder: 1px solid rgba(0,0,0,.5);
 
 	.checker{
 		width: $checkerR*2;
-		height: 5px;
+		height: $checker-height;
 		margin: 2px 1px -2px;
+		@include border-radius(4px);
 
 		&:nth-child(5n){
-			margin-bottom: 5px;
+			margin-bottom: $mb;
 		}
 		&:after{
 			display: none
 		}
 		&.opp{
 			background: $opp;
+			border-color:lighten($oppBorderColor,50%);
 		}
 		&.you{
 			background: $you;
+			border-color:darken($youBorderColor,50%);
 		}
 	}
 }
@@ -153,7 +160,29 @@ $oppBorder: 1px solid rgba(0,0,0,.5);
 .cube{
 	position: absolute;
 	margin: $boardH 0 0 $borderW;
-	&.opp{ margin-top: $borderW*1.1 }
-	&.you{ margin-top: $boardH*2 - $borderW*1.2 }
-
+	@include rotate(-90deg);
+	&.opp{ margin-top: $borderW*1.1; 
+		@include rotate(0deg) }
+	&.you{ margin-top: $boardH*2 - $borderW*1.2; 
+		@include rotate(0deg) }
+}
+.score{
+	$margin:160px;
+	$height:50px;
+	$padding:0px;
+	@include rotate(-90deg);
+	padding: $padding 0;
+	margin: $margin 10px 0;
+	height: $height;
+	position: absolute;
+	background: white;
+	font-size:12px;
+	line-height:16px;
+	width: 60px;
+	text-align: center;
+	z-index: 4;
+	@include border-radius(5px);
+	&.you{
+		margin-top: ($boardH + $borderW)*2 - $margin - $height - $padding*2;
+	}
 }

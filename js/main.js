@@ -41,6 +41,11 @@ $(function() {
 		location:""
 	});
 
+	BG.Models.Score = Backbone.Model.extend({
+		you:"",
+		opp:"",
+		game:""
+	});
 	// VIEWS
 
 	BG.Views.Checker = Backbone.View.extend({
@@ -77,17 +82,33 @@ $(function() {
 		},
 
 		render: function () {
-			console.log(this.collection.models[0].toJSON().model);
 			this.el = $(this.template(this.collection.models[0].toJSON()));
 			$('.cube-holder').html(this.el)
 			return this;	
 		}
 	});
 
+	BG.Views.Score = Backbone.View.extend({
+		template: template('score-template'),
+		
+		initialize: function() {
+			this.render();
+		},
+		
+		render: function () {
+			this.el = $(this.template(this.collection.models[0].toJSON()));
+			$('.side-panel.left').append(this.el);
+			return this;	
+		}
+	});
 	// COLLECTIONS
 
 	BG.Collections.Cube = Backbone.Collection.extend({
 		model: BG.Models.Cube
+	});
+
+	BG.Collections.Score = Backbone.Collection.extend({
+		model: BG.Models.Score
 	});
 
 	BG.Collections.Questions = Backbone.Collection.extend({
@@ -105,7 +126,7 @@ $(function() {
 			var dice = questions.models[0].get('dice');	
 			var score = questions.models[0].get('score');	
 //			console.log(checkers);
-//			console.log(score);
+//	DONE	console.log(score);
 //	DONE	console.log(cube);
 // 	DONE	console.log(dice);
 
@@ -123,7 +144,15 @@ $(function() {
 
 			var cubeView = new BG.Views.Cube({
 				collection: cubeCollection
-			})
+			});
+
+			var scoreCollection = new BG.Collections.Score({
+				model: score
+			});
+
+			var scoreView = new BG.Views.Score({
+				collection: scoreCollection
+			});
 		}
 	})
 });

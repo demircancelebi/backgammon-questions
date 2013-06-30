@@ -13,6 +13,7 @@
       </div>
       <div class="checker-side-holder bottom">
       </div>
+
       <div class="cube-holder">
 
       </div>
@@ -158,9 +159,39 @@
       </div>
     </div>
     <div class="side-panel right">
-      <div class="checker-side-holder top"></div>
+      <div class="checker-side-holder top">
+        <div class="checker opp"></div>
+        <div class="checker opp"></div>
+        <div class="checker opp"></div>
+        <div class="checker opp"></div>
+        <div class="checker opp"></div>
+        <div class="checker opp"></div>
+        <div class="checker opp"></div>
+        <div class="checker opp"></div>
+        <div class="checker opp"></div>
+        <div class="checker opp"></div>
+        <div class="checker opp"></div>
+        <div class="checker opp"></div>
+        <div class="checker opp"></div>
+        <div class="checker opp"></div>
+        <div class="checker opp"></div>
+      </div>
       <div class="checker-side-holder bottom">
-
+        <div class="checker you"></div>
+        <div class="checker you"></div>
+        <div class="checker you"></div>
+        <div class="checker you"></div>
+        <div class="checker you"></div>
+        <div class="checker you"></div>
+        <div class="checker you"></div>
+        <div class="checker you"></div>
+        <div class="checker you"></div>
+        <div class="checker you"></div>
+        <div class="checker you"></div>
+        <div class="checker you"></div>
+        <div class="checker you"></div>
+        <div class="checker you"></div>
+        <div class="checker you"></div>
       </div>
     </div>      
     <div class="dice-holder">
@@ -185,6 +216,16 @@
   <script type="text/template" id="cube-template">
     <div class="cube die empty black {{model.value ? (model.location ? 'you' : 'opp') : ''}}">{{model.value ? model.value : '64'}}</div>
   </script>
+
+  <script type="text/template" id="score-template">
+      <div class="score opp">
+        <strong class="lead">{{model.opp}}</strong><br> Game {{model.game}}
+      </div>
+      <div class="score you">
+        <strong class="lead">{{model.you}}</strong><br> Game {{model.game}}
+      </div>
+  </script>
+
 
 
 </body>
