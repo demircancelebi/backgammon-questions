@@ -9,9 +9,11 @@
 <body>
   <div class="screen">
     <div class="side-panel left">
-      <div class="checker-side-holder top">
+      <div class="checker-side-holder opp">
+
       </div>
-      <div class="checker-side-holder bottom">
+      <div class="checker-side-holder you">
+
       </div>
 
       <div class="cube-holder">
@@ -159,40 +161,7 @@
       </div>
     </div>
     <div class="side-panel right">
-      <div class="checker-side-holder top">
-        <div class="checker opp"></div>
-        <div class="checker opp"></div>
-        <div class="checker opp"></div>
-        <div class="checker opp"></div>
-        <div class="checker opp"></div>
-        <div class="checker opp"></div>
-        <div class="checker opp"></div>
-        <div class="checker opp"></div>
-        <div class="checker opp"></div>
-        <div class="checker opp"></div>
-        <div class="checker opp"></div>
-        <div class="checker opp"></div>
-        <div class="checker opp"></div>
-        <div class="checker opp"></div>
-        <div class="checker opp"></div>
-      </div>
-      <div class="checker-side-holder bottom">
-        <div class="checker you"></div>
-        <div class="checker you"></div>
-        <div class="checker you"></div>
-        <div class="checker you"></div>
-        <div class="checker you"></div>
-        <div class="checker you"></div>
-        <div class="checker you"></div>
-        <div class="checker you"></div>
-        <div class="checker you"></div>
-        <div class="checker you"></div>
-        <div class="checker you"></div>
-        <div class="checker you"></div>
-        <div class="checker you"></div>
-        <div class="checker you"></div>
-        <div class="checker you"></div>
-      </div>
+
     </div>      
     <div class="dice-holder">
       <div class="die five"></div>
@@ -205,27 +174,40 @@
   <script src="js/main.js"></script>
 
   <script type="text/template" id="checker-template">
-    <div class="checker {{value ? 'you' : 'opp'}}"></div>
+    <div class="checker <%= value ? 'you' : 'opp' %>"></div>
   </script>
 
   <script type="text/template" id="dice-template">
-    <div class="die _{{value[0]}}"></div>
-    <div class="die _{{value[1]}}"></div>
+    <div class="die _<%= value[0] %>"></div>
+    <div class="die _<%= value[1] %>"></div>
   </script>
 
   <script type="text/template" id="cube-template">
-    <div class="cube die empty black {{model.value ? (model.location ? 'you' : 'opp') : ''}}">{{model.value ? model.value : '64'}}</div>
+    <div class="cube die empty black <%= model.value ? (model.location ? 'you' : 'opp') : '' %>"><%= model.value ? model.value : '64' %></div>
   </script>
 
   <script type="text/template" id="score-template">
       <div class="score opp">
-        <strong class="lead">{{model.opp}}</strong><br> Game {{model.game}}
+        <strong class="lead"><%= model.opp %></strong><br> Game <%= model.game %>
       </div>
       <div class="score you">
-        <strong class="lead">{{model.you}}</strong><br> Game {{model.game}}
+        <strong class="lead"><%= model.you %></strong><br> Game <%= model.game %>
       </div>
   </script>
 
+  <script type="text/template" id="side-checker-holder">
+    <div class="checker-side-holder opp">
+       <% while(opp > 0) { %>
+        <div class="checker opp"></div>
+        <% opp-- %>
+      <% }; %>
+    </div><div class="checker-side-holder you">
+       <% while(you > 0) { %>
+        <div class="checker you"></div>
+        <% you-- %>
+      <% }; %>
+    </div>
+  </script>
 
 
 </body>
