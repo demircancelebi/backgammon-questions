@@ -51,7 +51,10 @@ $(function() {
 			you:"",
 			opp:""
 		}),
-		hit:{}
+		hit: Backbone.Model.extend({
+			you:"",
+			opp:""
+		})
 	};
 
 	// VIEWS
@@ -125,7 +128,22 @@ $(function() {
 				return this;
 			}
 		}),
-		hit: {}
+		hit: Backbone.View.extend({
+			template: template('hit-checker-holder'),
+
+			initialize: function () {
+				this.render();
+			},
+
+			render: function () {
+				var obj = this.collection.models[0].get('model');
+				var hitCheckersContainer = $('.hit-checkers-container');
+				this.el = $(this.template(obj));
+				hitCheckersContainer.append(this.el);
+				hitCheckersContainer.css({marginTop: ($('.screen').height() - hitCheckersContainer.height())/2 });
+				return this;
+			}
+		})
 	};
 
 	// COLLECTIONS
@@ -138,7 +156,9 @@ $(function() {
 		collected: Backbone.Collection.extend({
 			model: BG.Models.Checkers.collected
 		}),
-		hit:{}
+		hit: Backbone.Collection.extend({
+			model: BG.Models.Checkers.hit
+		})
 	};
 
 	BG.Collections.Questions = Backbone.Collection.extend({
@@ -172,6 +192,9 @@ $(function() {
 
 			var collectedCollection = new BG.Collections.Checkers.collected({ model: checkers.collected });
 			var collectedView 		= new BG.Views.Checkers.collected({ collection: collectedCollection });
+
+			var hitCollection 		= new BG.Collections.Checkers.hit({ model: checkers.hit });
+			var hitView 			= new BG.Views.Checkers.hit({ collection: hitCollection });
 		}
 	})
 });

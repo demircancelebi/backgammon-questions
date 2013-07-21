@@ -8,6 +8,7 @@ $checkerBorder:1px;
 $checkerAfterBorder:2px;
 $sidePanelW:80px;
 $allBoardsW:$boardW*2 + $borderW*4;
+$lineH: $checkerR * 10;
 
 $you: rgb(40,40,40);
 $youBorderColor:rgba(255,255,255,.5);
@@ -89,7 +90,7 @@ $oppBorder: 1px solid $oppBorderColor;
 }
 
 .checker-holder{
-	margin: -200px 0 0 -1*$checkerR;
+	margin: - $lineH 0 0 -1*$checkerR;
 }
 
 .line{
@@ -97,14 +98,14 @@ $oppBorder: 1px solid $oppBorderColor;
 	height: 0; 
 	border-left: $checkerR solid transparent;
 	border-right: $checkerR solid transparent;
-	border-top: 200px solid transparent;
+	border-top: $lineH solid transparent;
 	position: relative;
 	float: left;
 	&.white{
-		border-top: 200px solid rgba(255,255,255,.35);
+		border-top: $lineH solid rgba(255,255,255,.35);
 	}
 	&.black{
-		border-top: 200px solid rgba(0,0,0,.35);
+		border-top: $lineH solid rgba(0,0,0,.35);
 	}
 }
 
@@ -185,4 +186,10 @@ $oppBorder: 1px solid $oppBorderColor;
 	&.you{
 		margin-top: ($boardH + $borderW)*2 - $margin - $height - $padding*2;
 	}
+}
+
+.hit-checkers-container{
+	position: absolute;
+	margin-left: $checkerR*12 + $sidePanelW + $borderW;
+	margin-top:$borderW + $lineH + $checkerR;
 }

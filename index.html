@@ -162,7 +162,8 @@
     </div>
     <div class="side-panel right">
 
-    </div>      
+    </div> 
+    <div class="hit-checkers-container"></div>     
     <div class="dice-holder">
       <div class="die five"></div>
       <div class="die six"></div>
@@ -207,6 +208,16 @@
         <% you-- %>
       <% }; %>
     </div>
+  </script>
+  <script type="text/template" id="hit-checker-holder">  
+        <% while(opp > 0) { %>
+          <div class="checker opp"></div>
+          <% opp-- %>
+        <% }; %>
+         <% while(you > 0) { %>
+          <div class="checker you"></div>
+          <% you-- %>
+        <% }; %>
   </script>
 
 
