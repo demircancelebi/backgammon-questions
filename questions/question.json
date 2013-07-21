@@ -31,24 +31,24 @@
 		],
 
 		"collected":{
-			"you": 6,
-			"opp": 2
+			"you": 0,
+			"opp": 0
 		},
 
 		"hit":{
-			"you":1,
-			"opp":2
+			"you":0,
+			"opp":0
 		}
 	},
 
 	"score": {
-		"you":9,
-		"opp":4, 
-		"game":11
+		"you":0,
+		"opp":0, 
+		"game":7
 	},
 	"cube": {
 		"value":0,
 		"location":0
 	},
-	"dice" : [3,5]
+	"dice" : [3,1]
 }

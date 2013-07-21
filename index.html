@@ -23,140 +23,38 @@
     <div class="all-boards">
       <div class="boards top">
         <div class="board-4">
-          <div class="line black">
-            <div class="checker-holder">
-              <div class="checker you"></div>
-              <div class="checker you"></div>
-            </div>
-          </div>
-          <div class="line white">
-            <div class="checker-holder">
-            </div>
-          </div>
-          <div class="line black">
-            <div class="checker-holder">
-            </div>
-          </div>
-          <div class="line white">
-            <div class="checker-holder">
-            </div>
-          </div>
-          <div class="line black">
-            <div class="checker-holder">
-            </div>
-          </div>
-          <div class="line white">
-            <div class="checker-holder">
-              <div class="checker opp"></div>
-              <div class="checker opp"></div>
-              <div class="checker opp"></div>
-              <div class="checker opp"></div>
-              <div class="checker opp"></div>
-            </div>
-          </div>
+          <div class="line black"></div>
+          <div class="line white"></div>
+          <div class="line black"></div>
+          <div class="line white"></div>
+          <div class="line black"></div>
+          <div class="line white"></div>
         </div>
         <div class="board-3">
-          <div class="line black">
-            <div class="checker-holder">
-            </div>
-          </div>
-          <div class="line white">
-            <div class="checker-holder">
-              <div class="checker opp"></div>
-              <div class="checker opp"></div>
-              <div class="checker opp"></div>
-            </div>
-          </div>
-          <div class="line black">
-            <div class="checker-holder">
-            </div>
-          </div>
-          <div class="line white">
-            <div class="checker-holder">
-            </div>
-          </div>
-          <div class="line black">
-            <div class="checker-holder">
-            </div>
-          </div>
-          <div class="line white">
-            <div class="checker-holder">
-              <div class="checker you"></div>
-              <div class="checker you"></div>
-              <div class="checker you"></div>
-              <div class="checker you"></div>
-              <div class="checker you"></div>
-            </div>
-          </div>
+          <div class="line black"></div>
+          <div class="line white"></div>
+          <div class="line black"></div>
+          <div class="line white"></div>
+          <div class="line black"></div>
+          <div class="line white"></div>
         </div>
       </div>
       <div class="boards bottom">
         <div class="board-2">
-          <div class="line black">
-            <div class="checker-holder">
-              <div class="checker opp"></div>
-              <div class="checker opp"></div>
-              <div class="checker opp"></div>
-              <div class="checker opp"></div>
-              <div class="checker opp"></div>
-            </div>
-          </div>
-          <div class="line white">
-            <div class="checker-holder">
-            </div>
-          </div>
-          <div class="line black">
-            <div class="checker-holder">
-            </div>
-          </div>
-          <div class="line white">
-            <div class="checker-holder">
-            </div>
-          </div>
-          <div class="line black">
-            <div class="checker-holder">
-              <div class="checker you"></div>
-              <div class="checker you"></div>
-              <div class="checker you"></div>
-            </div>
-          </div>
-          <div class="line white">
-            <div class="checker-holder">
-            </div>
-          </div>
+          <div class="line black"></div>
+          <div class="line white"></div>
+          <div class="line black"></div>
+          <div class="line white"></div>
+          <div class="line black"></div>
+          <div class="line white"></div>
         </div>
         <div class="board-1">
-          <div class="line black">
-            <div class="checker-holder">
-              <div class="checker you"></div>
-              <div class="checker you"></div>
-              <div class="checker you"></div>
-              <div class="checker you"></div>
-              <div class="checker you"></div>
-            </div>
-          </div>
-          <div class="line white">
-            <div class="checker-holder">
-            </div>
-          </div>
-          <div class="line black">
-            <div class="checker-holder">
-            </div>
-          </div>
-          <div class="line white">
-            <div class="checker-holder">
-            </div>
-          </div>
-          <div class="line black">
-            <div class="checker-holder">
-            </div>
-          </div>
-          <div class="line white">
-            <div class="checker-holder">
-              <div class="checker opp"></div>
-              <div class="checker opp"></div>
-            </div>
-          </div>
+          <div class="line black"></div>
+          <div class="line white"></div>
+          <div class="line black"></div>
+          <div class="line white"></div>
+          <div class="line black"></div>
+          <div class="line white"></div>
         </div>
       </div>
     </div>
@@ -165,8 +63,8 @@
     </div> 
     <div class="hit-checkers-container"></div>     
     <div class="dice-holder">
-      <div class="die five"></div>
-      <div class="die six"></div>
+      <div class="die"></div>
+      <div class="die"></div>
     </div>
   </div>
   <script src="js/jquery.js"></script>
@@ -220,6 +118,187 @@
         <% }; %>
   </script>
 
-
+  <script type="text/template" id="all-boards">  
+    <div class="boards top">
+        <div class="board-4">
+          <div class="line black">
+            <div class="checker-holder">
+              <% if(obj[0].loc){ while(obj[0].loc.length > 0){ %>
+                <div class="checker <%= obj[0].loc[0] ? 'you' : 'opp' %>"></div>
+              <% obj[0].loc.shift() }};%>
+            </div>
+          </div>
+          <div class="line white">
+            <div class="checker-holder">
+              <% if(obj[1].loc){ while(obj[1].loc.length > 0){ %>
+                <div class="checker <%= obj[1].loc[0] ? 'you' : 'opp' %>"></div>
+              <% obj[1].loc.shift() }};%>
+            </div>
+          </div>
+          <div class="line black">
+            <div class="checker-holder">
+              <% if(obj[2].loc){ while(obj[2].loc.length > 0){ %>
+                <div class="checker <%= obj[2].loc[0] ? 'you' : 'opp' %>"></div>
+              <% obj[2].loc.shift() }};%>
+            </div>
+          </div>
+          <div class="line white">
+            <div class="checker-holder">
+              <% if(obj[3].loc){ while(obj[3].loc.length > 0){ %>
+                <div class="checker <%= obj[3].loc[0] ? 'you' : 'opp' %>"></div>
+              <% obj[3].loc.shift() }};%>
+            </div>
+          </div>
+          <div class="line black">
+            <div class="checker-holder">
+              <% if(obj[4].loc){ while(obj[4].loc.length > 0){ %>
+                <div class="checker <%= obj[4].loc[0] ? 'you' : 'opp' %>"></div>
+              <% obj[4].loc.shift() }};%>
+            </div>
+          </div>
+          <div class="line white">
+            <div class="checker-holder">
+              <% if(obj[5].loc){ while(obj[5].loc.length > 0){ %>
+                <div class="checker <%= obj[5].loc[0] ? 'you' : 'opp' %>"></div>
+              <% obj[5].loc.shift() }};%>
+            </div>
+          </div>
+        </div>
+        <div class="board-3">
+          <div class="line black">
+            <div class="checker-holder">
+              <% if(obj[6].loc){ while(obj[6].loc.length > 0){ %>
+                <div class="checker <%= obj[6].loc[0] ? 'you' : 'opp' %>"></div>
+              <% obj[6].loc.shift() }};%>            
+            </div>
+          </div>
+          <div class="line white">
+            <div class="checker-holder">
+              <% if(obj[7].loc){ while(obj[7].loc.length > 0){ %>
+                <div class="checker <%= obj[7].loc[0] ? 'you' : 'opp' %>"></div>
+              <% obj[7].loc.shift() }};%>            
+            </div>
+          </div>
+          <div class="line black">
+            <div class="checker-holder">
+              <% if(obj[8].loc){ while(obj[8].loc.length > 0){ %>
+                <div class="checker <%= obj[8].loc[0] ? 'you' : 'opp' %>"></div>
+              <% obj[8].loc.shift() }};%>            
+            </div>
+          </div>
+          <div class="line white">
+            <div class="checker-holder">
+              <% if(obj[9].loc){ while(obj[9].loc.length > 0){ %>
+                <div class="checker <%= obj[9].loc[0] ? 'you' : 'opp' %>"></div>
+              <% obj[9].loc.shift() }};%>            
+            </div>
+          </div>
+          <div class="line black">
+            <div class="checker-holder">
+              <% if(obj[10].loc){ while(obj[10].loc.length > 0){ %>
+                <div class="checker <%= obj[10].loc[0] ? 'you' : 'opp' %>"></div>
+              <% obj[10].loc.shift() }};%>            
+            </div>
+          </div>
+          <div class="line white">
+            <div class="checker-holder">
+              <% if(obj[11].loc){ while(obj[11].loc.length > 0){ %>
+                <div class="checker <%= obj[11].loc[0] ? 'you' : 'opp' %>"></div>
+              <% obj[11].loc.shift() }};%>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="boards bottom">
+      <div class="board-2">
+        <div class="line black">
+          <div class="checker-holder">
+            <% if(obj[12].loc){ while(obj[12].loc.length > 0){ %>
+              <div class="checker <%= obj[12].loc[0] ? 'you' : 'opp' %>"></div>
+            <% obj[12].loc.shift() }};%>          
+          </div>
+        </div>
+        <div class="line white">
+          <div class="checker-holder">
+            <% if(obj[13].loc){ while(obj[13].loc.length > 0){ %>
+              <div class="checker <%= obj[13].loc[0] ? 'you' : 'opp' %>"></div>
+            <% obj[13].loc.shift() }};%>           
+          </div>
+        </div>
+        <div class="line black">
+          <div class="checker-holder">
+            <% if(obj[14].loc){ while(obj[14].loc.length > 0){ %>
+              <div class="checker <%= obj[14].loc[0] ? 'you' : 'opp' %>"></div>
+            <% obj[14].loc.shift() }};%>           
+          </div>
+        </div>
+        <div class="line white">
+          <div class="checker-holder">
+            <% if(obj[15].loc){ while(obj[15].loc.length > 0){ %>
+              <div class="checker <%= obj[15].loc[0] ? 'you' : 'opp' %>"></div>
+            <% obj[15].loc.shift() }};%>           
+          </div>
+        </div>
+        <div class="line black">
+          <div class="checker-holder">
+            <% if(obj[16].loc){ while(obj[16].loc.length > 0){ %>
+              <div class="checker <%= obj[16].loc[0] ? 'you' : 'opp' %>"></div>
+            <% obj[16].loc.shift() }};%>           
+          </div>
+        </div>
+        <div class="line white">
+          <div class="checker-holder">
+            <% if(obj[17].loc){ while(obj[17].loc.length > 0){ %>
+              <div class="checker <%= obj[17].loc[0] ? 'you' : 'opp' %>"></div>
+            <% obj[17].loc.shift() }};%>           
+          </div>
+        </div>
+      </div>
+      <div class="board-1">
+        <div class="line black">
+          <div class="checker-holder">
+            <% if(obj[18].loc){ while(obj[18].loc.length > 0){ %>
+              <div class="checker <%= obj[18].loc[0] ? 'you' : 'opp' %>"></div>
+            <% obj[18].loc.shift() }};%>           
+          </div>
+        </div>
+        <div class="line white">
+          <div class="checker-holder">
+            <% if(obj[19].loc){ while(obj[19].loc.length > 0){ %>
+              <div class="checker <%= obj[19].loc[0] ? 'you' : 'opp' %>"></div>
+            <% obj[19].loc.shift() }};%>           
+          </div>
+        </div>
+        <div class="line black">
+          <div class="checker-holder">
+            <% if(obj[20].loc){ while(obj[20].loc.length > 0){ %>
+              <div class="checker <%= obj[20].loc[0] ? 'you' : 'opp' %>"></div>
+            <% obj[20].loc.shift() }};%>           
+          </div>
+        </div>
+        <div class="line white">
+          <div class="checker-holder">
+            <% if(obj[21].loc){ while(obj[21].loc.length > 0){ %>
+              <div class="checker <%= obj[21].loc[0] ? 'you' : 'opp' %>"></div>
+            <% obj[21].loc.shift() }};%>           
+          </div>
+        </div>
+        <div class="line black">
+          <div class="checker-holder">
+            <% if(obj[22].loc){ while(obj[22].loc.length > 0){ %>
+              <div class="checker <%= obj[22].loc[0] ? 'you' : 'opp' %>"></div>
+            <% obj[22].loc.shift() }};%>           
+          </div>
+        </div>
+        <div class="line white">
+          <div class="checker-holder">
+            <% if(obj[23].loc){ while(obj[23].loc.length > 0){ %>
+              <div class="checker <%= obj[23].loc[0] ? 'you' : 'opp' %>"></div>
+            <% obj[23].loc.shift() }};%>           
+          </div>
+        </div>
+      </div>
+    </div>
+  </script>
 </body>
 </html>

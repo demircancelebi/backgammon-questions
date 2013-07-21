@@ -8,7 +8,6 @@ $(function() {
 	window.template = function (id) { return _.template( $('#' + id ).html() ) }
 
 	// MODELS
-
 	BG.Models.Checker = Backbone.Model.extend({
 		defaults: {
 			value:0
@@ -46,7 +45,37 @@ $(function() {
 	});
 
 	BG.Models.Checkers = {
-		onBoard:{},
+		onBoard: Backbone.Model.extend({
+			model: [
+				{ "loc" : [] },
+				{ "loc" : [] },
+				{ "loc" : [] },
+				{ "loc" : [] },
+				{ "loc" : [] },
+				{ "loc" : [] },
+
+				{ "loc" : [] },
+				{ "loc" : [] },
+				{ "loc" : [] },
+				{ "loc" : [] },
+				{ "loc" : [] },
+				{ "loc" : [] },
+
+				{ "loc" : [] },
+				{ "loc" : [] },
+				{ "loc" : [] },
+				{ "loc" : [] },
+				{ "loc" : [] },
+				{ "loc" : [] },
+
+				{ "loc" : [] },
+				{ "loc" : [] },
+				{ "loc" : [] },
+				{ "loc" : [] },
+				{ "loc" : [] },
+				{ "loc" : [] }				
+			]
+		}),
 		collected: Backbone.Model.extend({
 			you:"",
 			opp:""
@@ -113,7 +142,23 @@ $(function() {
 	});
 
 	BG.Views.Checkers = {
-		onBoard: {},
+		onBoard: Backbone.View.extend({
+
+			template: template('all-boards'),
+
+			initialize: function () {
+				this.render()
+			},
+
+			render:function () {
+				var obj = { model: [] };
+				obj.model = this.collection.models[0].get('model');
+				this.el = $(this.template(obj.model));
+				console.log(obj.model);
+				$('.all-boards').html(this.el);
+				return this;
+			}
+		}),
 		collected: Backbone.View.extend({
 			template: template('side-checker-holder'),
 
@@ -152,7 +197,9 @@ $(function() {
 	BG.Collections.Score = Backbone.Collection.extend({ model: BG.Models.Score });
 
 	BG.Collections.Checkers = {
-		onBoard: {},
+		onBoard: Backbone.Collection.extend({
+			model: BG.Models.Checkers.onBoard
+		}),
 		collected: Backbone.Collection.extend({
 			model: BG.Models.Checkers.collected
 		}),
@@ -175,11 +222,6 @@ $(function() {
 			var cube = questions.models[0].get('cube');	
 			var dice = questions.models[0].get('dice');	
 			var score = questions.models[0].get('score');	
-			console.log(checkers.hit);
-//  DONE	console.log(checkers.collected);
-//	DONE	console.log(score);
-//	DONE	console.log(cube);
-// 	DONE	console.log(dice);
 
 			var diceModel 			= new BG.Models.Dice({ value: dice });
 			var diceView 			= new BG.Views.Dice({ model: diceModel });
@@ -195,6 +237,9 @@ $(function() {
 
 			var hitCollection 		= new BG.Collections.Checkers.hit({ model: checkers.hit });
 			var hitView 			= new BG.Views.Checkers.hit({ collection: hitCollection });
+
+			var onBoardCollection 	= new BG.Collections.Checkers.onBoard({ model: checkers.onBoard });
+			var onBoardView 		= new BG.Views.Checkers.onBoard({ collection: onBoardCollection });
 		}
 	})
 });
