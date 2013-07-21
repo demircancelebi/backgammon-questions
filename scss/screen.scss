@@ -129,7 +129,7 @@ $oppBorder: 1px solid $oppBorderColor;
 	float: left;
 	@include box-shadow(inset 0 0 20px rgba(30,30,30,.6));
 	@include border-radius(5px);
-	&.bottom{
+	&.you{
 		@include flipV();
 		bottom:20px;
 	}
