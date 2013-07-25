@@ -107,6 +107,16 @@ $oppBorder: 1px solid $oppBorderColor;
 	&.black{
 		border-top: $lineH solid rgba(0,0,0,.35);
 	}
+	.target{
+		background: rgb(255,225,0);
+		width: 10px;
+		height: 10px;
+		@include border-radius(10px);
+		top: - $lineH - 15px;
+		left:-5px;
+		position: absolute;
+		display:none;
+	}
 }
 
 @import "dice";
