@@ -152,11 +152,93 @@ $(function() {
 
 			render:function () {
 				var obj = { model: [] };
+				var dice = this.options.dice;
 				obj.model = this.collection.models[0].get('model');
+				var you = [],
+					opp = [];
+				$.each(obj.model, function (i,val) {
+					if(this.loc != undefined){
+						if(this.loc[0] == 1){
+							you.push(i);
+						}else{
+							opp.push(i);
+						}
+					}
+				});
 				this.el = $(this.template(obj.model));
-				console.log(obj.model);
+				var lines = this.el.find('.line').find('.checker-holder');
+				
+				this.renderPossibleOptions(lines,dice,you,opp);
+
 				$('.all-boards').html(this.el);
 				return this;
+			},
+
+			renderPossibleOptions: function (lines,dice,you,opp) {
+				var self = this;
+				$.each(lines,function (index) {
+					if(dice[0] != dice[1]){
+						self.allPossibleOptionsWhenDicesAreNotEqual(lines,dice,you,opp,index);
+						$(this).on('mouseover',function () {
+							$('.target').hide();
+							self.allPossibleOptionsWhenDicesAreNotEqual(lines,dice,you,opp,index);
+						});
+					}else{
+						self.allPossibleOptionsWhenDicesAreEqual(lines,dice,you,opp,index);
+						$(this).on('mouseover',function () {
+							$('.target').hide();
+							self.allPossibleOptionsWhenDicesAreEqual(lines,dice,you,opp,index);
+						});
+					}
+					$(this).on('mouseout',function () {
+						$('.checker-holder').off();
+						self.renderPossibleOptions(lines,dice,you,opp);
+					});
+				});
+			},
+
+			allPossibleOptionsWhenDicesAreNotEqual: function (lines,dice,you,opp,index) {
+				var val = (23 - index) % 24;
+				if(you.indexOf(val) > -1){
+					var l0, l1, l01;
+					$(this).css({cursor:"pointer"});
+					l0 = $(lines[index + dice[0]]).children('.checker.opp').length;
+					if(opp.indexOf(val - dice[0]) == -1 || l0 == 1){
+						$(lines[index + dice[0]]).find('.target').show();
+					}
+					l1 = $(lines[index + dice[1]]).children('.checker.opp').length;
+					if(opp.indexOf(val - dice[1]) == -1 || l1 == 1){
+						$(lines[index + dice[1]]).find('.target').show();
+					}
+					l01 = $(lines[index + dice[0] + dice[1]]).children('.checker.opp').length;
+					if(((opp.indexOf(val - dice[0]) == -1 || l0 == 1) || (opp.indexOf(val - dice[1]) == -1 || l1 == 1)) && (opp.indexOf(val - dice[0] - dice[1]) == -1 || l01 == 1)){
+						$(lines[index + dice[0] + dice[1]]).find('.target').show();
+					}
+				}
+			},
+
+			allPossibleOptionsWhenDicesAreEqual: function (lines,dice,you,opp,index) {
+				var val = (23 - index) % 24;
+				if(you.indexOf(val) > -1){
+					$(this).css({cursor:"pointer"});
+					var dl0, dl1, dl2, dl3;
+					dl0 = $(lines[index + dice[0]*1]).children('.checker.opp').length;
+					dl1 = $(lines[index + dice[0]*2]).children('.checker.opp').length;
+					dl2 = $(lines[index + dice[0]*3]).children('.checker.opp').length;
+					dl3 = $(lines[index + dice[0]*4]).children('.checker.opp').length;
+					if(opp.indexOf(val - dice[0]*1) == -1 || dl0 == 1){
+						$(lines[index + dice[0]*1]).find('.target').show();
+						if(opp.indexOf(val - dice[0]*2) == -1 || dl1 == 1){
+							$(lines[index + dice[0]*2]).find('.target').show();
+							if(opp.indexOf(val - dice[0]*3) == -1 || dl2 == 1){
+								$(lines[index + dice[0]*3]).find('.target').show();
+								if(opp.indexOf(val - dice[0]*4) == -1 || dl3 == 1){
+									$(lines[index + dice[0]*4]).find('.target').show();
+								}
+							}
+						}
+					}
+				}
 			}
 		}),
 		collected: Backbone.View.extend({
@@ -239,7 +321,7 @@ $(function() {
 			var hitView 			= new BG.Views.Checkers.hit({ collection: hitCollection });
 
 			var onBoardCollection 	= new BG.Collections.Checkers.onBoard({ model: checkers.onBoard });
-			var onBoardView 		= new BG.Views.Checkers.onBoard({ collection: onBoardCollection });
+			var onBoardView 		= new BG.Views.Checkers.onBoard({ collection: onBoardCollection, dice: dice });
 		}
 	})
 });
