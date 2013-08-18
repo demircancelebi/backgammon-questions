@@ -52,23 +52,23 @@
   border-radius: 20px; }
   /* line 66, ../scss/screen.scss */
   .checker.opp {
-    background: whitesmoke;
+    background: white;
     border: 1px solid rgba(0, 0, 0, 0.5); }
     /* line 69, ../scss/screen.scss */
     .checker.opp:after {
-      border: 2px dotted rgba(0, 100, 250, 0.25); }
+      border: 2px dotted rgba(0, 100, 250, 0.3); }
   /* line 73, ../scss/screen.scss */
   .checker.you {
-    background: #282828;
+    background: #191919;
     border: 1px solid rgba(255, 255, 255, 0.5); }
     /* line 77, ../scss/screen.scss */
     .checker.you:after {
-      border: 2px dotted rgba(220, 220, 0, 0.25); }
+      border: 2px dotted rgba(220, 220, 0, 0.3); }
   /* line 81, ../scss/screen.scss */
   .checker:after {
     content: "";
     display: block;
-    background: rgba(150, 150, 150, 0.3);
+    background: rgba(150, 150, 150, 0.2);
     width: 18px;
     height: 18px;
     margin: 8px;
@@ -115,7 +115,7 @@
 /* line 3, ../scss/dice.scss */
 .dice-holder {
   position: absolute;
-  margin: 240px 0 0 450px; }
+  margin: 240px 0 0 448px; }
   /* line 6, ../scss/dice.scss */
   .dice-holder .die:first-child {
     margin-right: 20px; }
@@ -202,7 +202,7 @@
 .checker-side-holder {
   width: 44px;
   margin: 20px 18px 0;
-  height: 209px;
+  height: 194px;
   position: absolute;
   background: transparent;
   float: left;
@@ -225,7 +225,7 @@
   /* line 148, ../scss/screen.scss */
   .checker-side-holder .checker {
     width: 40px;
-    height: 11px;
+    height: 10px;
     margin: 2px 1px -2px;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
@@ -240,11 +240,11 @@
       display: none; }
     /* line 160, ../scss/screen.scss */
     .checker-side-holder .checker.opp {
-      background: whitesmoke;
+      background: white;
       border-color: rgba(128, 128, 128, 0.5); }
     /* line 164, ../scss/screen.scss */
     .checker-side-holder .checker.you {
-      background: #282828;
+      background: #191919;
       border-color: rgba(128, 128, 128, 0.5); }
 
 /* line 171, ../scss/screen.scss */
@@ -280,14 +280,14 @@
   -ms-transform: rotate(-90deg);
   -o-transform: rotate(-90deg);
   transform: rotate(-90deg);
-  padding: 0px 0;
-  margin: 160px 10px 0;
+  padding: 0 5px;
+  margin: 135px 10px 0;
   height: 50px;
   position: absolute;
   background: white;
   font-size: 12px;
   line-height: 16px;
-  width: 60px;
+  width: 50px;
   text-align: center;
   z-index: 4;
   -webkit-border-radius: 5px;
@@ -295,11 +295,11 @@
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
   border-radius: 5px; }
-  /* line 196, ../scss/screen.scss */
+  /* line 197, ../scss/screen.scss */
   .score.you {
-    margin-top: 310px; }
+    margin-top: 335px; }
 
-/* line 201, ../scss/screen.scss */
+/* line 202, ../scss/screen.scss */
 .hit-checkers-container {
   position: absolute;
   margin-left: 340px;

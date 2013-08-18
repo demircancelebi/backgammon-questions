@@ -2,7 +2,7 @@ $diceColor:#345;
 
 .dice-holder{
 	position: absolute;
-	margin: 240px 0 0 450px;
+	margin: $boardW 0 0 $boardW*3/2 + $borderW*3 + $sidePanelW - 52;
 	.die:first-child{
 		margin-right: 20px;
 	}

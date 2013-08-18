@@ -1,20 +1,20 @@
 @import "compass/css3";
 
 $checkerR:20px;
-$borderW:20px;
+$borderW:$checkerR;
 $boardW:$checkerR*12;
-$boardH:240px;
+$boardH:$boardW;
 $checkerBorder:1px;
 $checkerAfterBorder:2px;
-$sidePanelW:80px;
+$sidePanelW:$checkerR*4;
 $allBoardsW:$boardW*2 + $borderW*4;
 $lineH: $checkerR * 10;
 
-$you: rgb(40,40,40);
+$you: rgb(25,25,25);
 $youBorderColor:rgba(255,255,255,.5);
 $youBorder: 1px solid $youBorderColor;
 
-$opp: rgb(245,245,245);
+$opp: rgb(255,255,255);
 $oppBorderColor: rgba(0,0,0,.5);
 $oppBorder: 1px solid $oppBorderColor;
 
@@ -51,7 +51,7 @@ $oppBorder: 1px solid $oppBorderColor;
 .board-1, .board-2, .board-3, .board-4{
 	background: rgba(200,150,120,1);
 	float: left;
-	border:$checkerR solid rgba(170,90,30,1);
+	border:$borderW solid rgba(170,90,30,1);
 	border-bottom:none;
 	position: relative;
 	width: $boardW;
@@ -67,7 +67,7 @@ $oppBorder: 1px solid $oppBorderColor;
 		background: $opp;
 		border:$oppBorder;
 		&:after{
-			border:$checkerAfterBorder dotted rgba(0,100,250,.25);	
+			border:$checkerAfterBorder dotted rgba(0,100,250,.3);	
 		}
 	}
 	&.you{
@@ -75,13 +75,13 @@ $oppBorder: 1px solid $oppBorderColor;
 		border: $youBorder;
 
 		&:after{
-			border:$checkerAfterBorder dotted rgba(220,220,0,.25);		
+			border:$checkerAfterBorder dotted rgba(220,220,0,.3);		
 		}
 	}
 	&:after{
 		content:"";
 		display:block;
-		background: rgba(150,150,150,.3);
+		background: rgba(150,150,150,.2);
 		width:$checkerR - $checkerAfterBorder;
 		height:$checkerR - $checkerAfterBorder;
 		margin:$checkerR/2 - $checkerBorder*2;
@@ -125,31 +125,31 @@ $oppBorder: 1px solid $oppBorderColor;
 	width: $sidePanelW;
 	background: rgba(170,90,30,.9);
 	float: left;
-	height: 520px;
+	height: $boardH*2 + $borderW*2;
 	position: relative;
 }
 
 .checker-side-holder{
-	$checker-height:11px;
-	$mb:5px;
-	width: 44px;
-	margin:20px 18px 0;
+	$checker-height:$checkerR/2;
+	$mb:$checkerR/4;
+	width: $checkerR*2 + 4px;
+	margin:$borderW $borderW +(-2px) 0;
 	height: ($checker-height +2) *15 + $mb*2 + 4px;
 	position: absolute;
 	background: transparent;
 	float: left;
 	@include box-shadow(inset 0 0 20px rgba(30,30,30,.6));
-	@include border-radius(5px);
+	@include border-radius($checkerR/4);
 	&.you{
 		@include flipV();
-		bottom:20px;
+		bottom:$borderW;
 	}
 
 	.checker{
 		width: $checkerR*2;
 		height: $checker-height;
 		margin: 2px 1px -2px;
-		@include border-radius(4px);
+		@include border-radius($checkerR/5);
 
 		&:nth-child(5n){
 			margin-bottom: $mb;
@@ -178,23 +178,24 @@ $oppBorder: 1px solid $oppBorderColor;
 		@include rotate(0deg) }
 }
 .score{
-	$margin:160px;
-	$height:50px;
-	$padding:0px;
+	$margin:$boardH*9/16;
+	$height:$sidePanelW*5/8;
+	$width:$height;
+	$padding:5px;
 	@include rotate(-90deg);
-	padding: $padding 0;
-	margin: $margin 10px 0;
+	padding: 0 $padding;
+	margin: $margin $sidePanelW/8 0;
 	height: $height;
 	position: absolute;
 	background: white;
 	font-size:12px;
 	line-height:16px;
-	width: 60px;
+	width: $width;
 	text-align: center;
 	z-index: 4;
 	@include border-radius(5px);
 	&.you{
-		margin-top: ($boardH + $borderW)*2 - $margin - $height - $padding*2;
+		margin-top: ($boardH + $borderW)*2 - $margin - $height;
 	}
 }
 
