@@ -236,16 +236,16 @@ $(function() {
 						var d2, d3;
 						
 						d0 = self.isMovePossible(opts,(loc-opts.dice[0]));
-						if(d0){
+						if(d0 !== false){
 							result.push(d0);
 							d1 = self.isMovePossible(opts,(loc-opts.dice[0]*2));
-							if(d1){
+							if(d1 !== false){
 								result.push(d1);
 								d2 = self.isMovePossible(opts,(loc-opts.dice[0]*3));
-								if(d2){
+								if(d2 !== false){
 									result.push(d2);
 									d3 = self.isMovePossible(opts,(loc-opts.dice[0]*4));
-									if(d3){
+									if(d3 !== false){
 										result.push(d3);
 									}
 								}
@@ -261,14 +261,14 @@ $(function() {
 						var d01;
 						
 						d0 = self.isMovePossible(opts,(loc-opts.dice[0]));
-						if(d0){result.push(d0);}
+						if(d0 !== false){result.push(d0);}
 						
 						d1 = self.isMovePossible(opts,(loc-opts.dice[1]));
-						if(d1){result.push(d1);}
+						if(d1 !== false ){result.push(d1);}
 						
 						if(d0 || d1){
 							d01 = self.isMovePossible(opts,(loc-opts.dice[0]-opts.dice[1]));
-							if(d01){result.push(d01);}
+							if(d01 !== false){result.push(d01);}
 						}
 						return result;
 					}
@@ -281,9 +281,9 @@ $(function() {
 			isMovePossible: function (opts,loc) {
 				var self = this;
 				var result;
-				if(loc>-1){
+				if(loc > -1){
 					var model = opts.model[loc];
-					result = (model.loc.length > 1 && !model.loc[1]) ? false : loc; 
+					result = ((model.loc.length > 1) && (!model.loc[1])) ? false : loc;
 				}
 				return result;
 			},
