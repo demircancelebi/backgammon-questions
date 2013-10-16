@@ -81,8 +81,14 @@
 /* line 92, ../scss/screen.scss */
 .checker-holder {
   margin: -200px 0 0 -20px; }
+  /* line 94, ../scss/screen.scss */
+  .checker-holder.movable {
+    cursor: pointer; }
+  /* line 98, ../scss/screen.scss */
+  .checker-holder.available .target {
+    display: block; }
 
-/* line 96, ../scss/screen.scss */
+/* line 104, ../scss/screen.scss */
 .line {
   width: 0;
   height: 0;
@@ -91,13 +97,13 @@
   border-top: 200px solid transparent;
   position: relative;
   float: left; }
-  /* line 104, ../scss/screen.scss */
+  /* line 112, ../scss/screen.scss */
   .line.white {
     border-top: 200px solid rgba(255, 255, 255, 0.35); }
-  /* line 107, ../scss/screen.scss */
+  /* line 115, ../scss/screen.scss */
   .line.black {
     border-top: 200px solid rgba(0, 0, 0, 0.35); }
-  /* line 110, ../scss/screen.scss */
+  /* line 118, ../scss/screen.scss */
   .line .target {
     background: #ffe100;
     width: 10px;
@@ -190,7 +196,7 @@
   display: block;
   position: absolute; }
 
-/* line 124, ../scss/screen.scss */
+/* line 132, ../scss/screen.scss */
 .side-panel {
   width: 80px;
   background: rgba(170, 90, 30, 0.9);
@@ -198,7 +204,7 @@
   height: 520px;
   position: relative; }
 
-/* line 132, ../scss/screen.scss */
+/* line 140, ../scss/screen.scss */
 .checker-side-holder {
   width: 44px;
   margin: 20px 18px 0;
@@ -214,7 +220,7 @@
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
   border-radius: 5px; }
-  /* line 143, ../scss/screen.scss */
+  /* line 151, ../scss/screen.scss */
   .checker-side-holder.you {
     -webkit-transform: scaleY(-1);
     -moz-transform: scaleY(-1);
@@ -222,7 +228,7 @@
     -o-transform: scaleY(-1);
     transform: scaleY(-1);
     bottom: 20px; }
-  /* line 148, ../scss/screen.scss */
+  /* line 156, ../scss/screen.scss */
   .checker-side-holder .checker {
     width: 40px;
     height: 10px;
@@ -232,22 +238,22 @@
     -ms-border-radius: 4px;
     -o-border-radius: 4px;
     border-radius: 4px; }
-    /* line 154, ../scss/screen.scss */
+    /* line 162, ../scss/screen.scss */
     .checker-side-holder .checker:nth-child(5n) {
       margin-bottom: 5px; }
-    /* line 157, ../scss/screen.scss */
+    /* line 165, ../scss/screen.scss */
     .checker-side-holder .checker:after {
       display: none; }
-    /* line 160, ../scss/screen.scss */
+    /* line 168, ../scss/screen.scss */
     .checker-side-holder .checker.opp {
       background: white;
       border-color: rgba(128, 128, 128, 0.5); }
-    /* line 164, ../scss/screen.scss */
+    /* line 172, ../scss/screen.scss */
     .checker-side-holder .checker.you {
       background: #191919;
       border-color: rgba(128, 128, 128, 0.5); }
 
-/* line 171, ../scss/screen.scss */
+/* line 179, ../scss/screen.scss */
 .cube {
   position: absolute;
   margin: 240px 0 0 20px;
@@ -256,7 +262,7 @@
   -ms-transform: rotate(-90deg);
   -o-transform: rotate(-90deg);
   transform: rotate(-90deg); }
-  /* line 175, ../scss/screen.scss */
+  /* line 183, ../scss/screen.scss */
   .cube.opp {
     margin-top: 22px;
     -webkit-transform: rotate(0deg);
@@ -264,7 +270,7 @@
     -ms-transform: rotate(0deg);
     -o-transform: rotate(0deg);
     transform: rotate(0deg); }
-  /* line 177, ../scss/screen.scss */
+  /* line 185, ../scss/screen.scss */
   .cube.you {
     margin-top: 456px;
     -webkit-transform: rotate(0deg);
@@ -273,7 +279,7 @@
     -o-transform: rotate(0deg);
     transform: rotate(0deg); }
 
-/* line 180, ../scss/screen.scss */
+/* line 188, ../scss/screen.scss */
 .score {
   -webkit-transform: rotate(-90deg);
   -moz-transform: rotate(-90deg);
@@ -295,11 +301,11 @@
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
   border-radius: 5px; }
-  /* line 197, ../scss/screen.scss */
+  /* line 205, ../scss/screen.scss */
   .score.you {
     margin-top: 335px; }
 
-/* line 202, ../scss/screen.scss */
+/* line 210, ../scss/screen.scss */
 .hit-checkers-container {
   position: absolute;
   margin-left: 340px;

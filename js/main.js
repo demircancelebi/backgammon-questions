@@ -2,10 +2,13 @@ $(function() {
 	window.BG = {
 		Models: {},
 		Collections: {},
-		Views: {}
+		Views: {},
+		Events:{}
 	};		
 
-	window.template = function (id) { return _.template( $('#' + id ).html() ) }
+	window.template = function (id) { return _.template( $('#' + id ).html() ); };
+
+	_.extend(BG.Events, Backbone.Events);
 
 	// MODELS
 	BG.Models.Checker = Backbone.Model.extend({
@@ -16,7 +19,7 @@ $(function() {
 		validate: function(attrs) {
 			if (!attrs.value) {
 				return 'I need a value!';
-			}; 
+			}
 		},
 
 		initialize: function(){
@@ -103,14 +106,14 @@ $(function() {
 	BG.Views.Dice = Backbone.View.extend({
 		template: template('dice-template'),
 
-	    initialize: function () {
-	    	this.render();
-	    },
-	    render: function () {
+		initialize: function () {
+			this.render();
+		},
+		render: function () {
 			this.el = $(this.template(this.model.toJSON()));
 			$('.dice-holder').html(this.el);
-	    	return this;
-	    }
+			return this;
+		}
 	});
 
 	BG.Views.Cube = Backbone.View.extend({
@@ -122,7 +125,7 @@ $(function() {
 
 		render: function () {
 			this.el = $(this.template(this.collection.models[0].toJSON()));
-			$('.cube-holder').html(this.el)
+			$('.cube-holder').html(this.el);
 			return this;	
 		}
 	});
@@ -147,17 +150,18 @@ $(function() {
 			template: template('all-boards'),
 
 			initialize: function () {
-				this.render()
+				this.render();
+				this.collection.on('change',this.render,this);
 			},
 
 			render:function () {
-				var obj = { model: [] };
-				var dice = this.options.dice;
-				obj.model = this.collection.models[0].get('model');
-				var you = [],
+				var obj = { model: [] },
+					dice = this.options.dice,
+					you = [],
 					opp = [];
+				obj.model = this.collection.models[0].get('model');
 				$.each(obj.model, function (i,val) {
-					if(this.loc != undefined){
+					if(this.loc !== undefined){
 						if(this.loc[0] == 1){
 							you.push(i);
 						}else{
@@ -167,78 +171,125 @@ $(function() {
 				});
 				this.el = $(this.template(obj.model));
 				var lines = this.el.find('.line').find('.checker-holder');
-				
-				this.renderPossibleOptions(lines,dice,you,opp);
+
+				var opts = {
+					model: obj.model,
+					lines: lines,
+					dice: dice,
+					you: you,
+					opp: opp
+				};
+
+				var possible = this.getAllPossibleOptions(opts);
+				this.renderPossibleOptions(possible, opts);
+				this.userInteraction(opts);
 
 				$('.all-boards').html(this.el);
 				return this;
 			},
 
-			renderPossibleOptions: function (lines,dice,you,opp) {
+			renderPossibleOptions: function (possible, opts) {
 				var self = this;
-				$.each(lines,function (index) {
-					if(dice[0] != dice[1]){
-						self.allPossibleOptionsWhenDicesAreNotEqual(lines,dice,you,opp,index);
-						$(this).on('mouseover',function () {
-							$('.target').hide();
-							self.allPossibleOptionsWhenDicesAreNotEqual(lines,dice,you,opp,index);
-						});
-					}else{
-						self.allPossibleOptionsWhenDicesAreEqual(lines,dice,you,opp,index);
-						$(this).on('mouseover',function () {
-							$('.target').hide();
-							self.allPossibleOptionsWhenDicesAreEqual(lines,dice,you,opp,index);
-						});
-					}
-					$(this).on('mouseout',function () {
-						$('.checker-holder').off();
-						self.renderPossibleOptions(lines,dice,you,opp);
-					});
+				possible = _.union(_.flatten(possible));
+				$.each(possible,function (index, item) {
+					var val = self.indexToLocation(item);
+					$(opts.lines[val]).addClass("available");
 				});
 			},
 
-			allPossibleOptionsWhenDicesAreNotEqual: function (lines,dice,you,opp,index) {
-				var val = (23 - index) % 24;
-				if(you.indexOf(val) > -1){
-					var l0, l1, l01;
-					$(this).css({cursor:"pointer"});
-					l0 = $(lines[index + dice[0]]).children('.checker.opp').length;
-					if(opp.indexOf(val - dice[0]) == -1 || l0 == 1){
-						$(lines[index + dice[0]]).find('.target').show();
+			userInteraction: function (opts) {
+				var self = this;
+				$.each(opts.lines,function (index) {				
+					var val = self.indexToLocation(index);
+					if(opts.you.indexOf(val) > -1){
+						$(this).addClass('movable').on('click',function () {
+							self.moveToHolder.call(this,opts,index,self);
+						});
 					}
-					l1 = $(lines[index + dice[1]]).children('.checker.opp').length;
-					if(opp.indexOf(val - dice[1]) == -1 || l1 == 1){
-						$(lines[index + dice[1]]).find('.target').show();
-					}
-					l01 = $(lines[index + dice[0] + dice[1]]).children('.checker.opp').length;
-					if(((opp.indexOf(val - dice[0]) == -1 || l0 == 1) || (opp.indexOf(val - dice[1]) == -1 || l1 == 1)) && (opp.indexOf(val - dice[0] - dice[1]) == -1 || l01 == 1)){
-						$(lines[index + dice[0] + dice[1]]).find('.target').show();
-					}
-				}
+				});
 			},
 
-			allPossibleOptionsWhenDicesAreEqual: function (lines,dice,you,opp,index) {
-				var val = (23 - index) % 24;
-				if(you.indexOf(val) > -1){
-					$(this).css({cursor:"pointer"});
-					var dl0, dl1, dl2, dl3;
-					dl0 = $(lines[index + dice[0]*1]).children('.checker.opp').length;
-					dl1 = $(lines[index + dice[0]*2]).children('.checker.opp').length;
-					dl2 = $(lines[index + dice[0]*3]).children('.checker.opp').length;
-					dl3 = $(lines[index + dice[0]*4]).children('.checker.opp').length;
-					if(opp.indexOf(val - dice[0]*1) == -1 || dl0 == 1){
-						$(lines[index + dice[0]*1]).find('.target').show();
-						if(opp.indexOf(val - dice[0]*2) == -1 || dl1 == 1){
-							$(lines[index + dice[0]*2]).find('.target').show();
-							if(opp.indexOf(val - dice[0]*3) == -1 || dl2 == 1){
-								$(lines[index + dice[0]*3]).find('.target').show();
-								if(opp.indexOf(val - dice[0]*4) == -1 || dl3 == 1){
-									$(lines[index + dice[0]*4]).find('.target').show();
+			moveToHolder: function (opts,index,self) {
+				self.collection.models[0].get('model')[index].loc.shift();
+				var checker = $(this).children('.checker:last-child');
+				$(opts.lines[index + opts.dice[0]]).append(checker);
+			},
+
+			getAllPossibleOptions: function (opts) {
+				var self = this;
+				var options = _.object(opts.you,opts.you);
+				
+				$.each(options,function(index,key) {
+					var result = self.checkPossibleOptions(opts,key);
+					options[index] = result;
+				});
+				return options;
+			},
+
+			checkPossibleOptions: function(opts,loc){
+				var self = this;
+				var d0, d1, result = [];
+				if(opts.dice[0] && opts.dice[1]){
+				// two dices are defined
+					if(opts.dice[0] === opts.dice[1]){
+					// two dices are equal
+						var d2, d3;
+						
+						d0 = self.isMovePossible(opts,(loc-opts.dice[0]));
+						if(d0){
+							result.push(d0);
+							d1 = self.isMovePossible(opts,(loc-opts.dice[0]*2));
+							if(d1){
+								result.push(d1);
+								d2 = self.isMovePossible(opts,(loc-opts.dice[0]*3));
+								if(d2){
+									result.push(d2);
+									d3 = self.isMovePossible(opts,(loc-opts.dice[0]*4));
+									if(d3){
+										result.push(d3);
+									}
 								}
 							}
 						}
+						return result;
+					}else{
+					//two dices are not equal
+					console.log("location " + loc);
+					//$.each(opts.dice, function (index,dice) {
+					//	console.log(dice);
+					//});
+						var d01;
+						
+						d0 = self.isMovePossible(opts,(loc-opts.dice[0]));
+						if(d0){result.push(d0);}
+						
+						d1 = self.isMovePossible(opts,(loc-opts.dice[1]));
+						if(d1){result.push(d1);}
+						
+						if(d0 || d1){
+							d01 = self.isMovePossible(opts,(loc-opts.dice[0]-opts.dice[1]));
+							if(d01){result.push(d01);}
+						}
+						return result;
 					}
+				}else{
+				// two dices are not defined
+
 				}
+			},
+
+			isMovePossible: function (opts,loc) {
+				var self = this;
+				var result;
+				if(loc>-1){
+					var model = opts.model[loc];
+					result = (model.loc.length > 1 && !model.loc[1]) ? false : loc; 
+				}
+				return result;
+			},
+
+			indexToLocation: function (index) {
+				return (23 - index) % 24;
 			}
 		}),
 		collected: Backbone.View.extend({
@@ -263,8 +314,8 @@ $(function() {
 			},
 
 			render: function () {
-				var obj = this.collection.models[0].get('model');
-				var hitCheckersContainer = $('.hit-checkers-container');
+				var obj = this.collection.models[0].get('model'),
+					hitCheckersContainer = $('.hit-checkers-container');
 				this.el = $(this.template(obj));
 				hitCheckersContainer.append(this.el);
 				hitCheckersContainer.css({marginTop: ($('.screen').height() - hitCheckersContainer.height())/2 });
@@ -293,35 +344,35 @@ $(function() {
 	BG.Collections.Questions = Backbone.Collection.extend({
 		url: '/questions/question.json',
 		parse: function(response){
-            return response;
-        }
+			return response;
+		}
 	});
 
 	var questions = new BG.Collections.Questions();
 	questions.fetch({
 		success: function () {
-			var checkers = questions.models[0].get('checkers');	
-			var cube = questions.models[0].get('cube');	
-			var dice = questions.models[0].get('dice');	
-			var score = questions.models[0].get('score');	
+			var checkers = questions.models[0].get('checkers'),
+				cube = questions.models[0].get('cube'),
+				dice = questions.models[0].get('dice'),
+				score = questions.models[0].get('score'),
 
-			var diceModel 			= new BG.Models.Dice({ value: dice });
-			var diceView 			= new BG.Views.Dice({ model: diceModel });
+				diceModel			= new BG.Models.Dice({ value: dice }),
+				diceView			= new BG.Views.Dice({ model: diceModel }),
 
-			var cubeCollection 		= new BG.Collections.Cube({ model: cube });
-			var cubeView 			= new BG.Views.Cube({ collection: cubeCollection });
+				cubeCollection		= new BG.Collections.Cube({ model: cube }),
+				cubeView			= new BG.Views.Cube({ collection: cubeCollection }),
 
-			var scoreCollection   	= new BG.Collections.Score({ model: score });
-			var scoreView 		  	= new BG.Views.Score({ collection: scoreCollection });
+				scoreCollection		= new BG.Collections.Score({ model: score }),
+				scoreView			= new BG.Views.Score({ collection: scoreCollection }),
 
-			var collectedCollection = new BG.Collections.Checkers.collected({ model: checkers.collected });
-			var collectedView 		= new BG.Views.Checkers.collected({ collection: collectedCollection });
+				collectedCollection = new BG.Collections.Checkers.collected({ model: checkers.collected }),
+				collectedView		= new BG.Views.Checkers.collected({ collection: collectedCollection }),
 
-			var hitCollection 		= new BG.Collections.Checkers.hit({ model: checkers.hit });
-			var hitView 			= new BG.Views.Checkers.hit({ collection: hitCollection });
+				hitCollection		= new BG.Collections.Checkers.hit({ model: checkers.hit }),
+				hitView				= new BG.Views.Checkers.hit({ collection: hitCollection }),
 
-			var onBoardCollection 	= new BG.Collections.Checkers.onBoard({ model: checkers.onBoard });
-			var onBoardView 		= new BG.Views.Checkers.onBoard({ collection: onBoardCollection, dice: dice });
+				onBoardCollection	= new BG.Collections.Checkers.onBoard({ model: checkers.onBoard }),
+				onBoardView			= new BG.Views.Checkers.onBoard({ collection: onBoardCollection, dice: dice });
 		}
-	})
+	});
 });

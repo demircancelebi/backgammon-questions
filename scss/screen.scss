@@ -91,6 +91,14 @@ $oppBorder: 1px solid $oppBorderColor;
 
 .checker-holder{
 	margin: - $lineH 0 0 -1*$checkerR;
+	&.movable{
+		cursor: pointer;
+	}
+	&.available{
+		.target{
+			display: block;
+		}
+	}
 }
 
 .line{
