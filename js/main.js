@@ -31,9 +31,8 @@ $(function() {
 	});
 
 	BG.Models.Dice = Backbone.Model.extend({
-		defaults: {
-			value: [1,1]
-		}
+		unplayed : [6,1],
+		played : []
 	});
 
 	BG.Models.Cube = Backbone.Model.extend({
@@ -210,9 +209,12 @@ $(function() {
 			},
 
 			moveToHolder: function (opts,index,self) {
+				var unplayed = opts.dice.unplayed,
+					played = opts.dice.played;
+
 				self.collection.models[0].get('model')[index].loc.shift();
 				var checker = $(this).children('.checker:last-child');
-				$(opts.lines[index + opts.dice[0]]).append(checker);
+				$(opts.lines[index + unplayed[0]]).append(checker);
 			},
 
 			getAllPossibleOptions: function (opts) {
@@ -227,51 +229,23 @@ $(function() {
 			},
 
 			checkPossibleOptions: function(opts,loc){
-				var self = this;
-				var d0, d1, result = [];
-				if(opts.dice[0] && opts.dice[1]){
+				var self = this,
+					result = [],
+					unplayed = opts.dice.unplayed,
+					played = opts.dice.played;
+
+				if(unplayed[0] && unplayed[1]){
 				// two dices are defined
-					if(opts.dice[0] === opts.dice[1]){
-					// two dices are equal
-						var d2, d3;
-						
-						d0 = self.isMovePossible(opts,(loc-opts.dice[0]));
-						if(d0 !== false){
-							result.push(d0);
-							d1 = self.isMovePossible(opts,(loc-opts.dice[0]*2));
-							if(d1 !== false){
-								result.push(d1);
-								d2 = self.isMovePossible(opts,(loc-opts.dice[0]*3));
-								if(d2 !== false){
-									result.push(d2);
-									d3 = self.isMovePossible(opts,(loc-opts.dice[0]*4));
-									if(d3 !== false){
-										result.push(d3);
-									}
-								}
-							}
-						}
-						return result;
-					}else{
-					//two dices are not equal
-					console.log("location " + loc);
-					//$.each(opts.dice, function (index,dice) {
-					//	console.log(dice);
-					//});
-						var d01;
-						
-						d0 = self.isMovePossible(opts,(loc-opts.dice[0]));
-						if(d0 !== false){result.push(d0);}
-						
-						d1 = self.isMovePossible(opts,(loc-opts.dice[1]));
-						if(d1 !== false ){result.push(d1);}
-						
-						if(d0 || d1){
-							d01 = self.isMovePossible(opts,(loc-opts.dice[0]-opts.dice[1]));
-							if(d01 !== false){result.push(d01);}
-						}
-						return result;
+					if(unplayed[0] === unplayed[1]){
+					// if two dices are equal, we make it 4
+						unplayed[2] = unplayed[3] = unplayed[0];
 					}
+					// for each dice we should 
+					console.log("loc " + loc);
+					$.each(unplayed, function (index,item) {
+											
+					});
+						return result;
 				}else{
 				// two dices are not defined
 
@@ -356,7 +330,7 @@ $(function() {
 				dice = questions.models[0].get('dice'),
 				score = questions.models[0].get('score'),
 
-				diceModel			= new BG.Models.Dice({ value: dice }),
+				diceModel			= new BG.Models.Dice({ unplayed: dice.unplayed, played: dice.played }),
 				diceView			= new BG.Views.Dice({ model: diceModel }),
 
 				cubeCollection		= new BG.Collections.Cube({ model: cube }),

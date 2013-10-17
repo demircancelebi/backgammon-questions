@@ -50,5 +50,8 @@
 		"value":0,
 		"location":0
 	},
-	"dice" : [2,5]
+	"dice" : {
+		"unplayed" : [2,3,4,5],
+		"played" : [1,2]
+	}
 }
