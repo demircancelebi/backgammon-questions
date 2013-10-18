@@ -163,7 +163,7 @@ $(function() {
 					if(this.loc !== undefined){
 						if(this.loc[0] == 1){
 							you.push(i);
-						}else{
+						}else if(this.loc[0] == 0){
 							opp.push(i);
 						}
 					}
@@ -234,20 +234,39 @@ $(function() {
 					unplayed = opts.dice.unplayed,
 					played = opts.dice.played;
 
-				if(unplayed[0] && unplayed[1]){
-				// two dices are defined
-					if(unplayed[0] === unplayed[1]){
-					// if two dices are equal, we make it 4
-						unplayed[2] = unplayed[3] = unplayed[0];
+				// Check to see if there is any unplayed dice
+				if(unplayed.length){
+
+					// If the player did not make a move 
+					// and the first two dices are the same
+					// it is a double dice (like [4,4])
+					// we should make it like [4,4,4,4]
+					if(unplayed[0] === unplayed[1] && !played.length){
+						unplayed[3] = unplayed[2] = unplayed[0];
 					}
-					// for each dice we should 
-					console.log("loc " + loc);
-					$.each(unplayed, function (index,item) {
-											
-					});
-						return result;
+
+					// Calculate the possible options for each dice
+					var possible = [unplayed[0]];
+					for(var i in unplayed) {
+						for(var j in possible) {
+							var index = unplayed[i] + Number(j);
+							possible[index] = index;
+						}
+					}
+					possible = _.union(_.flatten(possible));
+
+					// Find the possible moves and add them to the result array
+					for (var i in possible){
+						var isMovePossible = self.isMovePossible(opts, loc - possible[i]);
+						if(isMovePossible !== false && isMovePossible !== undefined){
+							result.push(isMovePossible);
+						}
+					}
+					
+					console.log(result);
+					return result;
 				}else{
-				// two dices are not defined
+				// there is no unplayed dice
 
 				}
 			},
