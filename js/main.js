@@ -163,7 +163,7 @@ $(function() {
 					if(this.loc !== undefined){
 						if(this.loc[0] == 1){
 							you.push(i);
-						}else if(this.loc[0] == 0){
+						}else if(this.loc[0] === 0){
 							opp.push(i);
 						}
 					}
@@ -247,22 +247,41 @@ $(function() {
 
 					// Calculate the possible options for each dice
 					var possible = [unplayed[0]];
-					for(var i in unplayed) {
+					for(var i = 0; i<unplayed.length; i++) {
 						for(var j in possible) {
-							var index = unplayed[i] + Number(j);
-							possible[index] = index;
+							if(possible.hasOwnProperty(j)){
+								var index = unplayed[i] + Number(j);
+								possible[index] = index;
+							}
 						}
 					}
 					possible = _.union(_.flatten(possible));
 
 					// Find the possible moves and add them to the result array
-					for (var i in possible){
-						var isMovePossible = self.isMovePossible(opts, loc - possible[i]);
+					var moves = [];
+					for(var k = 0; k<possible.length; k++) {
+						var isMovePossible = self.isMovePossible(opts, loc - possible[k]);
+						moves.push(isMovePossible);
+						// If it is a double dice
 						if(isMovePossible !== false && isMovePossible !== undefined){
 							result.push(isMovePossible);
 						}
 					}
+
+					// Handle the sum of the different dices (like 3-5)
+					if(moves[0] === false){
+						if(moves[1] === false){
+							result = [];
+						}
+					}
 					
+					// Handle the sum of the double dices (like 4-4)
+					for(var l = 0; l<moves.length; l++){
+						if(moves[l] === false && unplayed[0] === unplayed[1]){
+							moves.splice(l, moves.length++);
+							result = _.without(moves, false, undefined);
+						}
+					}
 					console.log(result);
 					return result;
 				}else{
